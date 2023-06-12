@@ -1,0 +1,43 @@
+Lasagna|Italian|false|135
+Butter Chicken|Indian|false|490
+Moo Goo Guy Pan|Chinese|false|272
+Vegetable Alicha|Ethiopian|true|138
+Spanakopita|Greek|true|260
+Chirashi Don|Japanese|false|600
+Canuck Burger|Canadian|false|7500
+B'ssara|Moroccan|true|178
+Shark Fin Soup|Chinese|false|46
+Chamuco|Mexican|true|150
+Natto|Japanese|true|212
+Canada Goose Chili|Canadian|false|199
+Diet Free-Range Gluten-free Water|Canadian|true|0
+Kung Pao Chicken|Chinese|false|229
+General Tao Chicken|Chinese|false|850
+Spicy Vegetable Moo Shu|Chinese|true|140
+BBQ Pork|Chinese|false|920
+Orange Chicken|Chinese|false|800
+Vegetables with Cashew Nuts|Chinese|true|143
+Lemon Chicken|Chinese|false|226
+Beef with Green Pepper|Chinese|false|251
+Sweet and Sour Pork|Chinese|false|231
+Szechuan Shrimp|Chinese|false|516
+Poutine|Canadian|false|710
+Teppanyaki|Japanese|false|200
+Greek Salad|Greek|true|185
+Fettuccine|Italian|false|266
+Teriyaki|Japanese|false|233
+Shortbread |Scottish|true|502
+Arepas|Columbian|true|219
+Bandeja Paisa|Columbian|false|1000
+Fricot|Canadian|false|360
+Chip Butty|English|true|956
+Grilled Salmon|Canadian|false|511
+Ravioli|Italian|false|246
+Crepe|Italian|true|186
+Fried Rice|Chinese|false|425
+Pepperoni Pizza|Italian|false|713
+Chicken Kabob|Indian|false|167
+Panzerotti|Italian|false|770
+Spring Rolls|Chinese|true|200
+Chicken Chow Mein|Chinese|false|178
+Kefta tagine|Moroccan|false|2112
