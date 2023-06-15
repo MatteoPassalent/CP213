@@ -28,15 +28,17 @@ public class Food implements Comparable<Food> {
      * @return A formatted numbered string of valid food origins.
      */
     public static String originsMenu() {
-
         String menu = "Origins\n";
         int i = 0;
         String s;
         for (String origin : ORIGINS) {
             s = Integer.toString(i);
-            menu += " " + s + " " + origin + "\n";
+            if (s.length() == 1) {
+                menu += " " + s + " " + origin + "\n";
+            } else {
+                menu += s + " " + origin + "\n";
+            }
             i += 1;
-
         }
         return menu;
     }
@@ -62,7 +64,6 @@ public class Food implements Comparable<Food> {
         this.isVegetarian = isVegetarian;
         this.calories = calories;
 
-        return;
     }
 
     /*
@@ -74,7 +75,7 @@ public class Food implements Comparable<Food> {
      * Foods are compared by name, then by origin if the names match. Must ignore
      * case.
      */
-    // FIX DO THEY WANT JUST -1, 1, 0???? what is return > 0 mean***
+
     @Override
     public int compareTo(final Food target) {
 
@@ -210,8 +211,9 @@ public class Food implements Comparable<Food> {
             bol = "false";
         }
         String cals = Integer.toString(this.calories);
+        String origin = Integer.toString(this.origin);
 
-        ps.println(this.name + "|" + ORIGINS[this.origin] + "|" + bol + "|" + cals);
+        ps.println(this.name + "|" + origin + "|" + bol + "|" + cals);
 
         return;
     }

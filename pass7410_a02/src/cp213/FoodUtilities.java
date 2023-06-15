@@ -27,7 +27,11 @@ public class FoodUtilities {
             count += 1;
         }
 
-        return total / count;
+        if (count != 0) {
+            return total / count;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -39,7 +43,6 @@ public class FoodUtilities {
      * @return average calories for all Foods of the specified origin
      */
     public static int averageCaloriesByOrigin(final ArrayList<Food> foods, final int origin) {
-
         int total = 0;
         int count = 0;
         for (Food f : foods) {
@@ -49,7 +52,11 @@ public class FoodUtilities {
             }
         }
 
-        return total / count;
+        if (count != 0) {
+            return total / count;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -91,10 +98,10 @@ public class FoodUtilities {
      */
     public static Food getFood(final Scanner keyboard) {
 
-        System.out.print("name: ");
+        System.out.print("Name: ");
         String name = keyboard.nextLine();
 
-        System.out.println(Food.originsMenu());
+        System.out.print(Food.originsMenu());
 
         System.out.print("Origin: ");
         String sorigin = keyboard.nextLine();
