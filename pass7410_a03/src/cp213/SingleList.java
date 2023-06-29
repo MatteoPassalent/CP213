@@ -550,13 +550,17 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         SingleNode<T> current = left.front;
         while (current != null) {
             // not copy safe
-            this._append(current.getData());
+            if (!this.contains(current.getData())) {
+                this._append(current.getData());
+            }
             current = current.getNext();
         }
         current = right.front;
         while (current != null) {
             // not copy safe
-            this._append(current.getData());
+            if (!this.contains(current.getData())) {
+                this._append(current.getData());
+            }
             current = current.getNext();
         }
     }

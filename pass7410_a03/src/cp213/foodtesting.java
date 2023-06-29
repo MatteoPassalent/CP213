@@ -6,7 +6,7 @@ import java.util.List;
 
 public class foodtesting {
     public static void main(final String[] args) {
-        testSingleStack();
+        testSingleList();
     }
 
     private static void testSingleStack() {
@@ -38,8 +38,17 @@ public class foodtesting {
         SingleList<Food> list = new SingleList<Food>();
         Food food1 = new Food("apple", 0, true, 100);
         Food food2 = new Food("banana", 1, false, 200);
+        Food food21 = new Food("banana", 1, false, 200);
+        Food food22 = new Food("banana", 1, false, 200);
+        Food food3 = new Food("carrot", 2, true, 300);
+
         list.append(food1);
         list.append(food2);
+        list.append(food21);
+        list.append(food22);
+        list.append(food3);
+        list.removeMany(food2);
+
         System.out.println(valuesToString(list));
 
     }
