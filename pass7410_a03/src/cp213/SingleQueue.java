@@ -44,15 +44,6 @@ public class SingleQueue<T> extends SingleLink<T> {
             this.moveFrontToRear(right);
         }
 
-        this.rear = null;
-        left.front = null;
-        left.rear = null;
-        left.length = 0;
-
-        right.front = null;
-        right.rear = null;
-        right.length = 0;
-
         return;
     }
 
@@ -62,7 +53,7 @@ public class SingleQueue<T> extends SingleLink<T> {
      * @param data The value to added to the rear of the queue.
      */
     public void insert(final T data) {
-
+        // not copy safe
         SingleNode<T> temp = new SingleNode<T>(data, null);
 
         if (this.front == null) {
@@ -87,8 +78,11 @@ public class SingleQueue<T> extends SingleLink<T> {
 
         SingleNode<T> temp = this.front;
         this.front = this.front.getNext();
+        if (this.front == null) {
+            this.rear = null;
+        }
         this.length -= 1;
-        // not copy sage
+        // not copy safe
         return temp.getData();
     }
 

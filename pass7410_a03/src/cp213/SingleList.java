@@ -24,14 +24,13 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      */
     private SingleNode<T> linearSearch(final T key) {
 
-        // your code here
-
         SingleNode<T> current = this.front;
         SingleNode<T> prev = this.front;
 
         while (current != null) {
-            if (current.getData().equals(key)) {
-                // not copy safe maybe
+            // compare to should work?
+            if (current.getData().compareTo(key) == 0) {
+                // 99% sure copy safe
                 return prev;
             }
             prev = current;
@@ -47,6 +46,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      * @param data The value to append.
      */
     public void append(final T data) {
+        // not copy safe maybe?
         SingleNode<T> newNode = new SingleNode<T>(data, null);
         if (this.front == null) {
             this.front = newNode;
@@ -74,7 +74,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         while (current != null) {
             SingleNode<T> runner = current;
             while (runner.getNext() != null) {
-                if (runner.getNext().getData() == current.getData()) {
+                if (runner.getNext().getData().compareTo(current.getData()) == 0) {
                     // Duplicate found, remove it
                     runner.setNext(runner.getNext().getNext());
                 } else {
@@ -132,7 +132,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         int count = 0;
 
         while (current != null) {
-            if (current.getData().equals(key)) {
+            if (current.getData().compareTo(key) == 0) {
                 count += 1;
             }
             current = current.getNext();
@@ -153,6 +153,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
 
         if (srch != null) {
             srch = srch.getNext();
+            // not copy safe maybe
             return srch.getData();
         } else {
             return null;
@@ -168,12 +169,14 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      * @throws ArrayIndexOutOfBoundsException if n is not a valid index.
      */
     public T get(final int n) throws ArrayIndexOutOfBoundsException {
-
+        if (n < 0 || n > this.length) {
+            throw new ArrayIndexOutOfBoundsException("Invalid index: " + n);
+        }
         SingleNode<T> curr = this.front;
-        for (int j = 0; j <= n; j++) {
+        for (int j = 0; j < n; j++) {
             curr = curr.getNext();
         }
-        // Prvacy leak???
+        // not copy safe maybe?
         return curr.getData();
 
     }
@@ -190,7 +193,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         SingleNode<T> sourceCurrentNode = source.front;
 
         while (currentNode != null && sourceCurrentNode != null) {
-            if (!currentNode.getData().equals(sourceCurrentNode.getData())) {
+            if (!(currentNode.getData().compareTo(sourceCurrentNode.getData()) == 0)) {
                 return false; // Values differ, lists are not identical
             }
 
@@ -216,7 +219,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         SingleNode<T> curr = this.front;
         int index = 0;
         while (curr != null) {
-            if (curr.getData().equals(key)) {
+            if (curr.getData().compareTo(key) == 0) {
                 return index;
             } else {
                 index += 1;
@@ -235,6 +238,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      * @param data The new value to insert into this SingleList.
      */
     public void insert(int i, final T data) {
+        // not copy safe maybe?
         SingleNode<T> newNode = new SingleNode(data, null);
         if (i >= this.length) {
             this.rear.setNext(newNode);
@@ -242,7 +246,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         } else {
             SingleNode<T> curr = this.front;
             SingleNode<T> prev = null;
-            for (int j = 0; j <= i; j++) {
+            for (int j = 0; j < i; j++) {
                 prev = curr;
                 curr = curr.getNext();
             }
@@ -265,28 +269,22 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      * @param right The second SingleList to create an intersection from.
      */
     public void intersection(final SingleList<T> left, final SingleList<T> right) {
-        SingleNode<T> leftCurrent = left.front;
-        SingleNode<T> rightCurrent = right.front;
-        SingleNode<T> intersectionCurrent = null;
-        SingleNode<T> intersectionFront = null;
-
-        while (leftCurrent != null && rightCurrent != null) {
-            if (leftCurrent.getData().equals(rightCurrent.getData())) {
-                if (intersectionCurrent == null) {
-                    intersectionCurrent = new SingleNode(leftCurrent.getData(), null);
-                    intersectionFront = intersectionCurrent;
-                } else {
-                    intersectionCurrent.setNext(new SingleNode(leftCurrent.getData(), null));
-                    intersectionCurrent = intersectionCurrent.getNext();
-                }
+        SingleNode<T> current = left.front;
+        while (current != null) {
+            if (right._contains(current.getData()) && !this._contains(current.getData())) {
+                // not copy safe
+                this._append(current.getData());
             }
-
-            leftCurrent = leftCurrent.getNext();
-            rightCurrent = rightCurrent.getNext();
+            current = current.getNext();
         }
-
-        // Set the intersection as the result for this SingleList
-        this.front = intersectionFront;
+        current = right.front;
+        while (current != null) {
+            if (left._contains(current.getData()) && !this._contains(current.getData())) {
+                // not copy safe
+                this._append(current.getData());
+            }
+            current = current.getNext();
+        }
     }
 
     /**
@@ -305,7 +303,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
             }
             curr = curr.getNext();
         }
-        // privacy leak?
+        // not copy safe maybe
         return max;
     }
 
@@ -325,7 +323,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
             }
             curr = curr.getNext();
         }
-        // privacy leak?
+        // not copy safe maybe
         return min;
     }
 
@@ -336,6 +334,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      */
     public void prepend(final T data) {
 
+        // not copy safe maybe
         SingleNode<T> newNode = new SingleNode<T>(data, null);
         if (this.front == null) {
             this.rear = newNode;
@@ -360,7 +359,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
             return null;
         }
 
-        if (this.front.getData().equals(key)) {
+        if (this.front.getData().compareTo(key) == 0) {
             // Key found at the head, remove and return it
             SingleNode<T> removedValue = this.front;
             this.front = this.front.getNext();
@@ -370,7 +369,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
 
         SingleNode<T> current = this.front;
         while (current.getNext() != null) {
-            if (current.getNext().getData().equals(key)) {
+            if (current.getNext().getData().compareTo(key) == 0) {
                 // Key found in the next node, remove and return it
                 SingleNode<T> removedValue = current.getNext();
                 current.setNext(current.getNext().getNext());
@@ -397,6 +396,10 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
 
         SingleNode<T> removedValue = this.front;
         this.front = this.front.getNext(); // Move the head pointer to the next node
+        if (this.front == null) {
+            // The list is now empty, update the rear pointer
+            this.rear = null;
+        }
         this.length -= 1;
 
         return removedValue.getData();
@@ -415,14 +418,14 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         }
 
         // Handle case when the key is found at the beginning of the list
-        while (this.front != null && this.front.getData().equals(key)) {
+        while (this.front != null && this.front.getData().compareTo(key) == 0) {
             this.front = this.front.getNext();
             this.length -= 1;
         }
 
         SingleNode<T> current = this.front;
         while (current != null && current.getNext() != null) {
-            if (current.getNext().getData().equals(key)) {
+            if (current.getNext().getData().compareTo(key) == 0) {
                 current.setNext(current.getNext().getNext());
                 this.length -= 1;
             } else {
@@ -456,6 +459,7 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
         }
 
         // Update the head to the new first element
+        this.rear = this.front;
         this.front = previous;
     }
 
@@ -531,10 +535,6 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
             }
         }
 
-        // Clear the original list
-        this.front = null;
-        this.rear = null;
-        this.length = 0;
     }
 
     /**
@@ -547,14 +547,46 @@ public class SingleList<T extends Comparable<T>> extends SingleLink<T> {
      */
     public void union(final SingleList<T> left, final SingleList<T> right) {
 
-        // Iterate over elements in the left SingleList
-        for (SingleNode<T> node = left.front; node != null; node = node.getNext()) {
-            this.moveFrontToFront(left); // Add the element to the current SingleList
+        SingleNode<T> current = left.front;
+        while (current != null) {
+            // not copy safe
+            this._append(current.getData());
+            current = current.getNext();
         }
+        current = right.front;
+        while (current != null) {
+            // not copy safe
+            this._append(current.getData());
+            current = current.getNext();
+        }
+    }
 
-        // Iterate over elements in the right SingleList
-        for (SingleNode<T> node = right.front; node != null; node = node.getNext()) {
-            this.moveFrontToFront(right); // Add the element to the current SingleList if it doesn't already exist
+    /**
+     * Appends data to the end of this SingleList.
+     *
+     * @param data The value to append.
+     */
+    private void _append(final T data) {
+        SingleNode<T> newNode = new SingleNode<T>(data, null);
+        if (this.front == null) {
+            this.front = newNode;
+        } else {
+            this.rear.setNext(newNode);
         }
+        this.rear = newNode;
+        this.length += 1;
+
+        return;
+    }
+
+    /**
+     * Determines if this SingleList contains key.
+     *
+     * @param key The key value to look for.
+     * @return true if key is in this SingleList, false otherwise.
+     */
+    private boolean _contains(final T key) {
+
+        return this.linearSearch(key) != null;
     }
 }

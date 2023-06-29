@@ -1,0 +1,346 @@
+SingleLink Data Structures Tests
+
+Tests are of the form:
+  Test Operation {expected value}: actual value
+  Contents: [contents from front to rear]
+
+================================================================================
+Testing SingleStack
+----------------------------------------
+SingleStack<Integer> source = new SingleStack<>();
+  isEmpty {true}: true
+----------------------------------------
+Push values: [27, 14, 29, 7, 32, 23, 24]
+  push: 27
+  push: 14
+  push: 29
+  push: 7
+  push: 32
+  push: 23
+  push: 24
+  isEmpty {false}: false
+  peek {24}: 24
+  Contents: [24, 23, 32, 7, 29, 14, 27]
+----------------------------------------
+source.splitAlternate(left, right)
+source
+  isEmpty {true}: true
+  Contents: []
+left
+  isEmpty {false}: false
+  peek {27}: 27
+  Contents: [27, 29, 32, 24]
+right
+  isEmpty {false}: false
+  peek {14}: 14
+  Contents: [14, 7, 23]
+----------------------------------------
+target.combine(left, right)
+target
+  isEmpty {false}: false
+  peek {24}: 24
+  Contents: [24, 23, 32, 7, 29, 14, 27]
+left
+  isEmpty {true}: true
+  Contents: []
+right
+  isEmpty {true}: true
+  Contents: []
+----------------------------------------
+Clear target
+  Pop {24}: 24
+  Pop {23}: 23
+  Pop {32}: 32
+  Pop {7}: 7
+  Pop {29}: 29
+  Pop {14}: 14
+  Pop {27}: 27
+
+----------------------------------------
+Test Stack with strings
+test
+string
+123
+abc
+xyz
+================================================================================
+Testing SingleQueue
+----------------------------------------
+SingleQueue<Integer> source = new SingleQueue<>();
+  isEmpty {true}: true
+----------------------------------------
+Insert values: [11, 33, 20, 22, 6, 39, 44]
+  insert: 11
+  insert: 33
+  insert: 20
+  insert: 22
+  insert: 6
+  insert: 39
+  insert: 44
+  isEmpty {false}: false
+  peek {11}: 11
+  Contents: [11, 33, 20, 22, 6, 39, 44]
+----------------------------------------
+source.splitAlternate(left, right)
+source
+  isEmpty {true}: true
+  Contents: []
+left
+  isEmpty {false}: false
+  peek {11}: 11
+  Contents: [11, 20, 6, 44]
+right
+  isEmpty {false}: false
+  peek {33}: 33
+  Contents: [33, 22, 39]
+----------------------------------------
+target.combine(left, right)
+target
+  isEmpty {false}: false
+  peek {11}: 11
+  Contents: [11, 33, 20, 22, 6, 39, 44]
+left
+  isEmpty {true}: true
+  Contents: []
+right
+  isEmpty {true}: true
+  Contents: []
+----------------------------------------
+Clear target
+  remove {11}: 11
+  remove {33}: 33
+  remove {20}: 20
+  remove {22}: 22
+  remove {6}: 6
+  remove {39}: 39
+  remove {44}: 44
+
+----------------------------------------
+Test Queue with strings
+xyz
+abc
+123
+string
+test
+================================================================================
+Testing SinglePriorityQueue
+----------------------------------------
+SinglePriorityQueue<Integer> source = new SinglePriorityQueue<>();
+  isEmpty {true}: true
+----------------------------------------
+Insert values: [35, 21, 35, 13, 16, 18, 15]
+  insert: 35
+  insert: 21
+  insert: 35
+  insert: 13
+  insert: 16
+  insert: 18
+  insert: 15
+  isEmpty {false}: false
+  peek {13}: 13
+  Contents: [13, 15, 16, 18, 21, 35, 35]
+----------------------------------------
+source.splitByKey(18, left, right)
+source
+  isEmpty {true}: true
+  Contents: []
+left
+  isEmpty {false}: false
+  peek {13}: 13
+  Contents: [13, 15, 16]
+right
+  isEmpty {false}: false
+  peek {18}: 18
+  Contents: [18, 21, 35, 35]
+----------------------------------------
+target.combine(left, right)
+target
+  isEmpty {false}: false
+  peek {13}: 13
+  Contents: [13, 15, 16, 18, 21, 35, 35]
+left
+  isEmpty {true}: true
+  Contents: []
+right
+  isEmpty {true}: true
+  Contents: []
+----------------------------------------
+Clear target
+  remove {13}: 13
+  remove {15}: 15
+  remove {16}: 16
+  remove {18}: 18
+  remove {21}: 21
+  remove {35}: 35
+  remove {35}: 35
+
+----------------------------------------
+Test Priority Queue with strings
+123
+abc
+string
+test
+xyz
+================================================================================
+Testing SingleList
+----------------------------------------
+SingleList<Integer> source = new SingleList<>();
+  isEmpty {true}: true
+----------------------------------------
+Append values: [22, 24]
+  append: 22
+  append: 24
+  isEmpty {false}: false
+  peek {22}: 22
+  Contents: [22, 24]
+----------------------------------------
+prepend: 41
+  isEmpty {false}: false
+  peek {41}: 41
+  Contents: [41, 22, 24]
+----------------------------------------
+Insert values: [22, 24]
+  insert: (1, 22)
+  insert: (2, 30)
+  insert: (3, 27)
+  insert: (4, 13)
+  isEmpty {false}: false
+  peek {41}: 41
+  Contents: [41, 22, 30, 27, 13, 22, 24]
+----------------------------------------
+contains 999 {false}: false
+contains 27 {true}: true
+----------------------------------------
+find 999 {null}:
+find 27 {27}: 27
+----------------------------------------
+get 3 {27}: 27
+----------------------------------------
+index 27 {3}: 3
+index 999 {-1}: -1
+----------------------------------------
+max {41}: 41
+min {13}: 13
+----------------------------------------
+Contents: [41, 22, 30, 27, 13, 22, 24]
+  count 999 {0}: 0
+Contents: [75, 75, 75, 75, 75, 75, 75]
+  count 75 {7}: 7
+----------------------------------------
+Contents: [75, 75, 75, 75, 75, 75, 75]
+  clean {[75]}: [75]
+----------------------------------------
+Contents: [75, 75, 75, 75, 75, 75, 75]
+  removeMany 999 {[75, 75, 75, 75, 75, 75, 75]}: [75, 75, 75, 75, 75, 75, 75]
+  removeMany 75 {[]}: []
+----------------------------------------
+Contents: [41, 22, 30, 27, 13, 22, 24]
+  removeFront {41}: 41
+----------------------------------------
+Contents: [22, 30, 27, 13, 22, 24]
+  remove 999 {null}: null
+  remove 24 {24}: 24
+Contents: [22, 30, 27, 13, 22]
+----------------------------------------
+Contents: [41, 22, 30, 27, 13, 22, 24]
+  reverse {[24, 22, 13, 27, 30, 22, 41]}: [24, 22, 13, 27, 30, 22, 41]
+----------------------------------------
+Contents: [41, 22, 30, 27, 13, 22, 24]
+  split {[41, 22, 30, 27], [13, 22, 24]}: [41, 22, 30, 27], [13, 22, 24]
+----------------------------------------
+Contents: [41, 22, 30, 27, 13, 22, 24]
+  splitAlternate {[41, 30, 13, 24], [22, 27, 22]}: [41, 30, 13, 24], [22, 27, 22]
+----------------------------------------
+Contents: [41, 30, 13, 24], [22, 27, 22]
+  combine {[41, 22, 30, 27, 13, 22, 24]}: [41, 22, 30, 27, 13, 22, 24]
+----------------------------------------
+Contents: [], []
+  identical {true}: true
+Contents: [41, 22, 30, 27, 13, 22, 24], [41, 22, 30, 27, 13, 22, 24]
+  identical {true}: true
+Contents: [41, 22, 30, 27, 13, 22, 24], [13, 22, 22, 24, 27, 30, 41]
+  identical {false}: false
+----------------------------------------
+Contents: [3, 5, 2, 4, 0, 1, 6], [1, 6, 0, 2, 3, 4, 5]
+  intersection {[3, 5, 2, 4, 0, 1, 6]}: [3, 5, 2, 4, 0, 1, 6]
+Contents: [3, 5, 2, 4, 0, 1, 6], [999]
+  intersection {[]}: []
+----------------------------------------
+Contents: [3, 5, 2], [4, 0, 1, 6]
+  union {[3, 5, 2, 4, 0, 1, 6]}: [3, 5, 2, 4, 0, 1, 6]
+----------------------------------------
+SingleList<Character> characters = new SingleList<>();
+  append: CP213
+  append: David
+  append: Laurier
+  append: covid
+  Contents: [CP213, David, Laurier, covid]
+
+----------------------------------------
+Test List with strings
+xyz
+abc
+123
+string
+test
+
+
+Hello, World!
+[Name:       apple
+Origin:     Canadian
+Vegetarian: true
+Calories:   100
+Origin:     Chinese
+Vegetarian: false
+Calories:   200
+]
+PS C:\cp213>  c:; cd 'c:\cp213'; & 'C:\Program Files\Java\jdk-19\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5ebb1a4bbc2c1743435a3f0fcabaeef6\redhat.java\jdt_ws\jdt.ls-java-project\bin' 'cp213.foodtesting' 
+Hello, World!
+Origin:     Canadian
+Vegetarian: true
+Calories:   100
+, Name:       banana
+Origin:     Chinese
+Vegetarian: false
+Calories:   200
+]
+PS C:\cp213>  c:; cd 'c:\cp213'; & 'C:\Program Files\Java\jdk-19\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5ebb1a4bbc2c1743435a3f0fcabaeef6\redhat.java\jdt_ws\jdt.ls-java-project\bin' 'cp213.foodtesting' 
+Hello, World!
+        Type mismatch: cannot convert from List<T> to String
+
+        at cp213.foodtesting.valuesToString(foodtesting.java:33)
+        at cp213.foodtesting.main(foodtesting.java:15)
+PS C:\cp213>  c:; cd 'c:\cp213'; & 'C:\Program Files\Java\jdk-19\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5ebb1a4bbc2c1743435a3f0fcabaeef6\redhat.java\jdt_ws\jdt.ls-java-project\bin' 'cp213.foodtesting' 
+Hello, World!
+[Name:       apple
+Origin:     Canadian
+Vegetarian: true
+Calories:   100
+, Name:       banana
+Origin:     Chinese
+Vegetarian: false
+]
+PS C:\cp213>  c:; cd 'c:\cp213'; & 'C:\Program Files\Java\jdk-19\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5ebb1a4bbc2c1743435a3f0fcabaeef6\redhat.java\jdt_ws\jdt.ls-java-project\bin' 'cp213.foodtesting' 
+[Name:       carrot
+Origin:     Indian
+Vegetarian: true
+Calories:   300
+, Name:       banana
+Origin:     Chinese
+Vegetarian: false
+Calories:   200
+, Name:       apple
+Origin:     Canadian
+Vegetarian: true
+Calories:   100
+]
+PS C:\cp213>  c:; cd 'c:\cp213'; & 'C:\Program Files\Java\jdk-19\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\user\AppData\Roaming\Code\User\workspaceStorage\5ebb1a4bbc2c1743435a3f0fcabaeef6\redhat.java\jdt_ws\jdt.ls-java-project\bin' 'cp213.foodtesting' 
+[Name:       banana
+Origin:     Chinese
+Vegetarian: false
+Calories:   200
+, Name:       apple
+Origin:     Canadian
+Vegetarian: true
+Calories:   100
+]

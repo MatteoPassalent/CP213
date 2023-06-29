@@ -121,6 +121,9 @@ public abstract class SingleLink<T> implements Iterable<T> {
         // your code here
         SingleNode<T> temp = source.front;
         source.front = source.front.getNext();
+        if (source.front == null) {
+            source.rear = null;
+        }
         source.length -= 1;
         temp.setNext(this.front);
         this.front = temp;
@@ -143,6 +146,9 @@ public abstract class SingleLink<T> implements Iterable<T> {
         // your code here
         SingleNode<T> temp = source.front;
         source.front = source.front.getNext();
+        if (source.front == null) {
+            source.rear = null;
+        }
         source.length -= 1;
         temp.setNext(null);
 

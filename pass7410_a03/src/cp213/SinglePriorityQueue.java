@@ -74,6 +74,7 @@ public class SinglePriorityQueue<T extends Comparable<T>> extends SingleLink<T> 
         // your code here
         SingleNode<T> current = this.front;
         SingleNode<T> previous = null;
+        // not copy safe
         SingleNode<T> newNode = new SingleNode<T>(data, null);
         this.length += 1;
 
@@ -89,17 +90,17 @@ public class SinglePriorityQueue<T extends Comparable<T>> extends SingleLink<T> 
             if (previous == null) {
                 newNode.setNext(this.front);
                 this.front = newNode;
+            } else if (current == null) {
+                this.rear.setNext(newNode);
+                this.rear = newNode;
             } else {
                 newNode.setNext(current);
                 previous.setNext(newNode);
-            }
-            if (current == null) {
-                this.rear.setNext(newNode);
-                this.rear = newNode;
 
             }
         }
         return;
+
     }
 
     /**
@@ -112,8 +113,11 @@ public class SinglePriorityQueue<T extends Comparable<T>> extends SingleLink<T> 
 
         SingleNode<T> temp = this.front;
         this.front = this.front.getNext();
+        if (this.front == null) {
+            this.rear = null;
+        }
         this.length -= 1;
-
+        // not copy
         return temp.getData();
     }
 

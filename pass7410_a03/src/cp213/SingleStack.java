@@ -58,8 +58,11 @@ public class SingleStack<T> extends SingleLink<T> {
 
         SingleNode<T> temp = this.front;
         this.front = this.front.getNext();
+        if (this.front == null) {
+            this.rear = null;
+        }
         this.length -= 1;
-
+        // not copy safe
         return temp.getData();
     }
 
@@ -69,7 +72,7 @@ public class SingleStack<T> extends SingleLink<T> {
      * @param data The value to add to the top of the stack.
      */
     public void push(final T data) {
-
+        // not copy safe
         this.front = new SingleNode<T>(data, this.front);
         this.length += 1;
 
