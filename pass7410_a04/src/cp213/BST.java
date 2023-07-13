@@ -34,12 +34,18 @@ public class BST<T extends Comparable<T>> {
      * @return true if source and target are identical in items and height.
      */
     protected boolean equalsAux(final TreeNode<T> source, final TreeNode<T> target) {
+        // your code here
 
-        if (source.getHeight() == target.getHeight() && source.inOrder().equals(target.inOrder())) {
+        if (source.getHeight() == target.getHeight()) {
+            for (int i = 0; i < source.inOrder().size(); i++) {
+                if (source.inOrder().get(i).compareTo(target.inOrder().get(i)) != 0) {
+                    return false;
+                }
+            }
             return true;
-        } else {
-            return false;
         }
+
+        return false;
 
     }
 
@@ -79,6 +85,10 @@ public class BST<T extends Comparable<T>> {
     /**
      * Auxiliary method for valid. Determines if a subtree based on node is a valid
      * subtree.
+     * Determines if this tree is a valid BST; i.e. a node's left child data is
+     * smaller than its data, and its right child data is greater than its data, and
+     * a node's height is equal to the maximum of the heights of its two children
+     * (empty child nodes have a height of 0), plus 1.
      *
      * @param node    The root of the subtree to test for validity.
      * @param minNode The node of the minimum value in the current subtree.
@@ -92,8 +102,12 @@ public class BST<T extends Comparable<T>> {
             return true;
         }
 
-        if ((minNode != null && node.getdata().compareTo(minNode.getdata()) <= 0)
-                || (maxNode != null && node.getdata().compareTo(maxNode.getdata()) >= 0)) {
+        int leftHeight = node.getLeft() != null ? node.getLeft().getHeight() : 0;
+        int rightHeight = node.getRight() != null ? node.getRight().getHeight() : 0;
+
+        if (((minNode != null && node.getdata().compareTo(minNode.getdata()) <= 0)
+                || (maxNode != null && node.getdata().compareTo(maxNode.getdata()) >= 0))
+                || (node.getHeight() != Math.max(leftHeight, rightHeight) + 1)) {
             return false;
         }
 
@@ -126,9 +140,10 @@ public class BST<T extends Comparable<T>> {
      */
     public boolean contains(final CountedItem<T> key) {
 
+        // your code here
         ArrayList<CountedItem<T>> list = this.inOrder();
-        for (int i = 0; i <= list.size(); i++) {
-            if (list.get(i) == key) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).compareTo(key) == 0) {
                 return true;
             }
         }
@@ -213,7 +228,7 @@ public class BST<T extends Comparable<T>> {
      * @return true if this tree is empty, false otherwise.
      */
     public boolean isEmpty() {
-
+        // your code here
         return this.root == null;
 
     }
@@ -275,10 +290,16 @@ public class BST<T extends Comparable<T>> {
     public CountedItem<T> retrieve(final CountedItem<T> key) {
 
         // your code here
-        ArrayList<CountedItem<T>> list = this.inOrder();
-        for (int i = 0; i <= list.size(); i++) {
-            if (list.get(i) == key) {
-                return list.get(i);
+        TreeNode<T> node = this.root;
+        while (node != null) {
+            this.comparisons++;
+            int compare = node.getdata().compareTo(key);
+            if (compare == 0) {
+                return node.getdata();
+            } else if (compare > 0) {
+                node = node.getLeft();
+            } else {
+                node = node.getRight();
             }
         }
 

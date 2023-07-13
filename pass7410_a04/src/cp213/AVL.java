@@ -28,13 +28,13 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
         if (node.getLeft() == null) {
             leftHeight = 1;
         } else {
-            leftHeight = node.getLeft().getHeight();
+            leftHeight = node.getLeft().getHeight() + 1;
         }
 
         if (node.getRight() == null) {
             rightHeight = 1;
         } else {
-            rightHeight = node.getLeft().getHeight();
+            rightHeight = node.getRight().getHeight() + 1;
         }
 
         return leftHeight - rightHeight;
@@ -49,10 +49,13 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
     private TreeNode<T> rotateLeft(final TreeNode<T> node) {
 
         // your code here
-        TreeNode<T> pivot = parent.getRight();
-        parent.setRight(pivot.getRight());
-        pivot.setLeft(parent);
+        TreeNode<T> pivot = node.getRight();
+        node.setRight(pivot.getLeft());
+        pivot.setLeft(node);
+        pivot.updateHeight();
+        node.updateHeight();
         return pivot;
+
     }
 
     /**
@@ -64,9 +67,11 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
     private TreeNode<T> rotateRight(final TreeNode<T> node) {
 
         // your code here
-        TreeNode<T> pivot = parent.getLeft();
-        parent.setLeft(pivot.getLeft());
-        pivot.setRight(parent);
+        TreeNode<T> pivot = node.getLeft();
+        node.setLeft(pivot.getRight());
+        pivot.setRight(node);
+        pivot.updateHeight();
+        node.updateHeight();
 
         return pivot;
     }
@@ -80,8 +85,6 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
      */
     @Override
     protected TreeNode<T> insertAux(TreeNode<T> node, final CountedItem<T> data) {
-
-        // your code here
         if (node == null) {
             // Base case - add a new node containing the data.
             node = new TreeNode<T>(data);
@@ -94,17 +97,34 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
             if (result > 0) {
                 // General case - check the left subtree.
                 node.setLeft(this.insertAux(node.getLeft(), data));
+                if (this.balance(node) > 1) {
+                    // Left rotation
+                    if (data.compareTo(node.getLeft().getdata()) < 0) {
+                        node = this.rotateRight(node);
+                    } else { // Left-Right rotation
+                        node.setLeft(this.rotateLeft(node.getLeft()));
+                        node = this.rotateRight(node);
+                    }
+                }
             } else if (result < 0) {
                 // General case - check the right subtree.
                 node.setRight(this.insertAux(node.getRight(), data));
+                if (this.balance(node) < -1) {
+                    // Right rotation
+                    if (data.compareTo(node.getRight().getdata()) > 0) {
+                        node = this.rotateLeft(node);
+                    } else { // Right-Left rotation
+                        node.setRight(this.rotateRight(node.getRight()));
+                        node = this.rotateLeft(node);
+                    }
+                }
             } else {
-                // Base case - data is already in the tree, increment its count
+                // Base case - data is already in the tree, increment its count.
                 node.getdata().incrementCount();
             }
         }
         node.updateHeight();
         return node;
-
     }
 
     /**
@@ -124,9 +144,13 @@ public class AVL<T extends Comparable<T>> extends BST<T> {
             return true;
         }
 
-        if ((minNode != null && (node.getdata().compareTo(minNode.getdata()) <= 0))
-                || (maxNode != null && node.getdata().compareTo(maxNode.getdata()) >= 0)
-                || (balance(node) > 1 || balance(node) < -1)) {
+        int leftHeight = node.getLeft() != null ? node.getLeft().getHeight() : 0;
+        int rightHeight = node.getRight() != null ? node.getRight().getHeight() : 0;
+
+        if (((minNode != null && node.getdata().compareTo(minNode.getdata()) <= 0)
+                || (maxNode != null && node.getdata().compareTo(maxNode.getdata()) >= 0))
+                || (node.getHeight() != Math.max(leftHeight, rightHeight) + 1)
+                || ((this.balance(node) > 1 || this.balance(node) < -1))) {
             return false;
         }
 

@@ -23,8 +23,49 @@ public class PopularityTree<T extends Comparable<T>> extends BST<T> {
     private TreeNode<T> retrieveAux(TreeNode<T> node, final CountedItem<T> key) {
 
         // your code here
+        if (node == null) {
+            return null;
+        }
 
-        return null;
+        int compare = node.getdata().compareTo(key);
+        this.comparisons++;
+
+        if (compare == 0) {
+            node.getdata().incrementCount();
+            return node;
+        } else if (compare > 0) {
+            TreeNode<T> foundNode = this.retrieveAux(node.getLeft(), key);
+            if (foundNode != null) {
+                if (node.getLeft().getdata().getCount() < foundNode.getdata().getCount()) {
+                    node.setLeft(foundNode);
+                }
+                if (node.getdata().getCount() < foundNode.getdata().getCount()) {
+                    TreeNode<T> newRoot = this.rotateRight(node);
+                    if (node.getdata().compareTo(this.root.getdata()) == 0) {
+                        this.root = newRoot;
+                    }
+                }
+            }
+
+            return foundNode;
+
+        } else {
+            TreeNode<T> foundNode = this.retrieveAux(node.getRight(), key);
+
+            if (foundNode != null) {
+                if (node.getRight().getdata().getCount() < foundNode.getdata().getCount()) {
+                    node.setRight(foundNode);
+                }
+                if (node.getdata().getCount() < foundNode.getdata().getCount()) {
+                    TreeNode<T> newRoot = this.rotateLeft(node);
+                    if (node.getdata().compareTo(this.root.getdata()) == 0) {
+                        this.root = newRoot;
+                    }
+                }
+            }
+
+            return foundNode;
+        }
     }
 
     /**
@@ -36,8 +77,9 @@ public class PopularityTree<T extends Comparable<T>> extends BST<T> {
     private TreeNode<T> rotateLeft(final TreeNode<T> parent) {
 
         // your code here
+        // fix heights
         TreeNode<T> pivot = parent.getRight();
-        parent.setRight(pivot.getRight());
+        parent.setRight(pivot.getLeft());
         pivot.setLeft(parent);
         return pivot;
     }
@@ -52,9 +94,8 @@ public class PopularityTree<T extends Comparable<T>> extends BST<T> {
 
         // your code here
         TreeNode<T> pivot = parent.getLeft();
-        parent.setLeft(pivot.getLeft());
+        parent.setLeft(pivot.getRight());
         pivot.setRight(parent);
-
         return pivot;
     }
 
@@ -103,7 +144,28 @@ public class PopularityTree<T extends Comparable<T>> extends BST<T> {
 
         // your code here
 
-        return false;
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = node.getLeft() != null ? node.getLeft().getHeight() : 0;
+        int rightHeight = node.getRight() != null ? node.getRight().getHeight() : 0;
+
+        int leftCount = node.getLeft() != null ? node.getLeft().getdata().getCount() : 0;
+        int rightCount = node.getRight() != null ? node.getRight().getdata().getCount() : 0;
+
+        if (((minNode != null && node.getdata().compareTo(minNode.getdata()) <= 0)
+                || (maxNode != null && node.getdata().compareTo(maxNode.getdata()) >= 0))
+                || (node.getHeight() != Math.max(leftHeight, rightHeight) + 1)
+                || (node.getdata().getCount() < leftCount)
+                || (node.getdata().getCount() < rightCount)) {
+            return false;
+        }
+
+        boolean isLeftValid = isValidAux(node.getLeft(), minNode, node);
+        boolean isRightValid = isValidAux(node.getRight(), node, maxNode);
+
+        return isLeftValid && isRightValid;
     }
 
     /**
@@ -127,16 +189,22 @@ public class PopularityTree<T extends Comparable<T>> extends BST<T> {
     public CountedItem<T> retrieve(CountedItem<T> key) {
 
         // your code here
-        // def wrong
-        ArrayList<CountedItem<T>> list = this.inOrder();
-        for (int i = 0; i <= list.size(); i++) {
-            if (list.get(i) == key) {
-                list.get(i).incrementCount();
-                return list.get(i);
-            }
+        TreeNode<T> rnode = retrieveAux(this.root, key);
+        CountedItem<T> r = rnode != null ? rnode.getdata() : null;
+        fixSillyheights(this.root);
+        return r;
+    }
+
+    private void fixSillyheights(TreeNode<T> root) {
+        if (root == null) {
+            return;
         }
 
-        return null;
+        fixSillyheights(root.getLeft());
+        fixSillyheights(root.getRight());
+        root.updateHeight();
+
+        return;
     }
 
 }

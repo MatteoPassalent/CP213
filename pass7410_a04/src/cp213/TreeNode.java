@@ -27,7 +27,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @param data The data to store in the node.
      */
     public TreeNode(final CountedItem<T> data) {
-	this.data = data;
+        this.data = data;
     }
 
     /**
@@ -37,12 +37,12 @@ public class TreeNode<T extends Comparable<T>> {
      * @param list The final list of node data.
      */
     private final void inOrderAux(final TreeNode<T> node, final ArrayList<CountedItem<T>> list) {
-	if (node != null) {
-	    this.inOrderAux(node.getLeft(), list);
-	    list.add(new CountedItem<T>(node.getdata()));
-	    this.inOrderAux(node.getRight(), list);
-	}
-	return;
+        if (node != null) {
+            this.inOrderAux(node.getLeft(), list);
+            list.add(new CountedItem<T>(node.getdata()));
+            this.inOrderAux(node.getRight(), list);
+        }
+        return;
     }
 
     /**
@@ -52,12 +52,12 @@ public class TreeNode<T extends Comparable<T>> {
      * @param list The final list of node data.
      */
     private final void preOrderAux(final TreeNode<T> node, final ArrayList<CountedItem<T>> list) {
-	if (node != null) {
-	    list.add(new CountedItem<T>(node.getdata()));
-	    this.preOrderAux(node.getLeft(), list);
-	    this.preOrderAux(node.getRight(), list);
-	}
-	return;
+        if (node != null) {
+            list.add(new CountedItem<T>(node.getdata()));
+            this.preOrderAux(node.getLeft(), list);
+            this.preOrderAux(node.getRight(), list);
+        }
+        return;
     }
 
     /**
@@ -67,7 +67,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @return this node data.
      */
     public CountedItem<T> getdata() {
-	return this.data;
+        return this.data;
     }
 
     /**
@@ -76,7 +76,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @return this node height.
      */
     public int getHeight() {
-	return this.height;
+        return this.height;
     }
 
     /**
@@ -85,7 +85,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @return this left child pointer.
      */
     public TreeNode<T> getLeft() {
-	return this.left;
+        return this.left;
     }
 
     /**
@@ -94,7 +94,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @return this right child pointer.
      */
     public TreeNode<T> getRight() {
-	return this.right;
+        return this.right;
     }
 
     /**
@@ -107,9 +107,9 @@ public class TreeNode<T extends Comparable<T>> {
      * @return The contents of this tree as a list of data.
      */
     public final ArrayList<CountedItem<T>> inOrder() {
-	final ArrayList<CountedItem<T>> list = new ArrayList<>();
-	this.inOrderAux(this, list);
-	return list;
+        final ArrayList<CountedItem<T>> list = new ArrayList<>();
+        this.inOrderAux(this, list);
+        return list;
     }
 
     /**
@@ -123,29 +123,29 @@ public class TreeNode<T extends Comparable<T>> {
      * @return this tree data as a list of data.
      */
     public final ArrayList<CountedItem<T>> levelOrder() {
-	final ArrayList<CountedItem<T>> list = new ArrayList<>();
-	TreeNode<T> node = this;
+        final ArrayList<CountedItem<T>> list = new ArrayList<>();
+        TreeNode<T> node = this;
 
-	if (this != null) {
-	    // Put the nodes for one level into a temporary queue.
-	    final ArrayList<TreeNode<T>> queue = new ArrayList<>();
-	    queue.add(node);
+        if (this != null) {
+            // Put the nodes for one level into a temporary queue.
+            final ArrayList<TreeNode<T>> queue = new ArrayList<>();
+            queue.add(node);
 
-	    while (queue.size() > 0) {
-		// Add the node to the queue
-		node = queue.remove(0);
-		// Add a copy of the node data to the list of data
-		list.add(new CountedItem<T>(node.getdata()));
+            while (queue.size() > 0) {
+                // Add the node to the queue
+                node = queue.remove(0);
+                // Add a copy of the node data to the list of data
+                list.add(new CountedItem<T>(node.getdata()));
 
-		if (node.getLeft() != null) {
-		    queue.add(node.getLeft());
-		}
-		if (node.getRight() != null) {
-		    queue.add(node.getRight());
-		}
-	    }
-	}
-	return list;
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -158,9 +158,9 @@ public class TreeNode<T extends Comparable<T>> {
      * @return The contents of this tree as a list of data.
      */
     public final ArrayList<CountedItem<T>> preOrder() {
-	final ArrayList<CountedItem<T>> list = new ArrayList<>();
-	this.preOrderAux(this, list);
-	return list;
+        final ArrayList<CountedItem<T>> list = new ArrayList<>();
+        this.preOrderAux(this, list);
+        return list;
     }
 
     /**
@@ -169,7 +169,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @param left this new left child node to link to.
      */
     public void setLeft(final TreeNode<T> left) {
-	this.left = left;
+        this.left = left;
     }
 
     /**
@@ -178,7 +178,7 @@ public class TreeNode<T extends Comparable<T>> {
      * @param right this new right child node to link to.
      */
     public void setRight(final TreeNode<T> right) {
-	this.right = right;
+        this.right = right;
     }
 
     /**
@@ -186,7 +186,7 @@ public class TreeNode<T extends Comparable<T>> {
      */
     @Override
     public String toString() {
-	return "D: " + this.data + "; H: " + this.height;
+        return "D: " + this.data + "; H: " + this.height;
     }
 
     /**
@@ -194,17 +194,17 @@ public class TreeNode<T extends Comparable<T>> {
      * child nodes. Empty child nodes are defined to have a height of 0.
      */
     public void updateHeight() {
-	int leftHeight = 0;
-	int rightHeight = 0;
+        int leftHeight = 0;
+        int rightHeight = 0;
 
-	if (this.left != null) {
-	    leftHeight = this.left.height;
-	}
-	if (this.right != null) {
-	    rightHeight = this.right.height;
-	}
-	this.height = Math.max(leftHeight, rightHeight) + 1;
-	return;
+        if (this.left != null) {
+            leftHeight = this.left.height;
+        }
+        if (this.right != null) {
+            rightHeight = this.right.height;
+        }
+        this.height = Math.max(leftHeight, rightHeight) + 1;
+        return;
     }
 
 }
