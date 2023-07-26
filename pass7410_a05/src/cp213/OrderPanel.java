@@ -1,11 +1,16 @@
 package cp213;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
 import java.math.BigDecimal;
+import java.awt.print.PrinterJob;
 
+import javax.print.PrintException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,8 +71,16 @@ public class OrderPanel extends JPanel {
         public void actionPerformed(final ActionEvent e) {
 
             // your code here
-            int result = order.print(getGraphics(), null, ABORT);
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable(order);
 
+            if (job.printDialog()) {
+                try {
+                    job.print();
+                } catch (PrinterException err) {
+                    System.out.println(err.getMessage());
+                }
+            }
         }
     }
 
@@ -126,11 +139,17 @@ public class OrderPanel extends JPanel {
         JFrame testWindow = new JFrame("WLU Foodorama");
         testWindow.setSize(WIDTH, HEIGHT);
 
+        GridLayout gLayout = new GridLayout(menu.size() + 5, 3);
+        setLayout(gLayout);
         this.setSize(WIDTH, HEIGHT);
-        this.add(printButton);
-        this.add(subtotalLabel);
-        this.add(taxLabel);
-        this.add(totalLabel);
+
+        JLabel itemHeading = new JLabel("Item");
+        JLabel priceHeading = new JLabel("Price");
+        JLabel quantityHeading = new JLabel("Quantity");
+
+        this.add(itemHeading);
+        this.add(priceHeading);
+        this.add(quantityHeading);
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
@@ -144,6 +163,22 @@ public class OrderPanel extends JPanel {
             this.add(quantityFields[i]);
 
         }
+
+        JLabel subtotalHeading = new JLabel("Subtotal:");
+        JLabel taxHeading = new JLabel("Tax:");
+        JLabel totalHeading = new JLabel("Total:");
+
+        this.add(subtotalHeading);
+        this.add(new JLabel(""));
+        this.add(subtotalLabel);
+        this.add(taxHeading);
+        this.add(new JLabel(""));
+        this.add(taxLabel);
+        this.add(totalHeading);
+        this.add(new JLabel(""));
+        this.add(totalLabel);
+        this.add(new JLabel(""));
+        this.add(printButton);
 
         this.setVisible(true);
 
