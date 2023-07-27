@@ -129,8 +129,9 @@ public class Order implements Printable {
         // your code here
         String prnt = "Receipt\n";
         for (Map.Entry<MenuItem, Integer> pair : orderMap.entrySet()) {
-            prnt += String.format("%-14s %d @ $ %.2f = $ %5.2f\n", pair.getKey().getName(), pair.getValue(),
-                    pair.getKey().getPrice(), (pair.getKey().getPrice().multiply(new BigDecimal(pair.getValue()))));
+            prnt += String.format("%-14s %d @ $ %5.2f = $ %5.2f\n", pair.getKey().getName(), pair.getValue(),
+                    pair.getKey().getPrice(), pair.getKey().getPrice().multiply(new BigDecimal(pair.getValue())));
+
         }
 
         prnt += "\n";
@@ -152,11 +153,10 @@ public class Order implements Printable {
     public void update(final MenuItem item, final int quantity) {
 
         // your code here
-        // ask if we should use this when input 0
         if (quantity <= 0) {
             orderMap.remove(item);
+        } else {
+            orderMap.put(item, quantity);
         }
-        orderMap.put(item, quantity);
-
     }
 }

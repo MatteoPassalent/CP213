@@ -43,55 +43,55 @@ public class Cashier {
      * @return the completed Order.
      */
     public Order takeOrder() {
+        // double check **
         System.out.println("Welcome to WLU Foodorama!");
         // your code here
         int command = -1;
         Order order = new Order();
         printCommands();
 
-        while (command != 0) {
-            // should do try block
-            int q = 0;
-            Scanner input = new Scanner(System.in);
-            System.out.print("Command: ");
-            try {
-                command = input.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Not a valid number");
-                continue;
-            } catch (NoSuchElementException f) {
-                System.out.println("Not a valid number");
-                continue;
-            }
-
-            if (command == 0) {
-                input.close();
-            } else if (command < 0 || command > menu.size()) {
-                printCommands();
-            } else {
-                while (q == 0) {
-                    input = new Scanner(System.in);
-                    try {
-                        System.out.print("How many do you want? ");
-                        q = input.nextInt();
-                        if (q <= 0) {
-                            break;
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Not a valid number");
-                    } catch (NoSuchElementException f) {
-                        System.out.println("Not a valid number");
-                    }
+        try (Scanner input = new Scanner(System.in)) {
+            while (command != 0) {
+                int q = 0;
+                System.out.print("Command: ");
+                try {
+                    command = input.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Not a valid number");
+                    continue;
+                } finally {
+                    input.nextLine();
                 }
-                if (q > 0) {
-                    order.add(menu.getItem(command - 1), q);
+
+                if (command == 0) {
+                } else if (command < 0 || command > menu.size()) {
+                    printCommands();
+                } else {
+                    while (q == 0) {
+                        System.out.print("How many do you want? ");
+                        try {
+                            q = input.nextInt();
+                            if (q <= 0) {
+                                break;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Not a valid number");
+                        } finally {
+                            input.nextLine();
+                        }
+                    }
+
+                    if (q > 0) {
+                        order.add(menu.getItem(command - 1), q);
+                    }
                 }
             }
         }
+
         // prob shouldnt be in here maybe?
-        String str = order.toString();
-        System.out.println(str);
+        System.out.println(order);
 
         return order;
     }
+
 }

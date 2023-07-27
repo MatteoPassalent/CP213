@@ -1,6 +1,8 @@
 package cp213;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * Defines the name and price of a menu item. Price is stored as a BigDecimal to
@@ -12,7 +14,6 @@ import java.math.BigDecimal;
  * @version 2023-07-05
  */
 public class MenuItem {
-    // superclass is object?
 
     // Attributes
     private static final String itemFormat = "%-12s $%5.2f";
@@ -29,7 +30,8 @@ public class MenuItem {
 
         // your code here
         this.name = name;
-        this.price = price;
+        // not a problem?
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
 
     }
 
@@ -42,9 +44,8 @@ public class MenuItem {
     public MenuItem(final String name, final double price) {
 
         // your code here
-        // this constructor?
         this.name = name;
-        this.price = new BigDecimal(price);
+        this.price = new BigDecimal(Double.toString(price));
 
     }
 
@@ -78,9 +79,23 @@ public class MenuItem {
     public String toString() {
 
         // your code here
-        // Check for proper class type?
-        // maybe privacy leak?
-        // should use itemformat
         return String.format(itemFormat, this.name, this.price);
+    }
+
+    // didnt need before?
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        MenuItem other = (MenuItem) obj;
+        return Objects.equals(name, other.name) && Objects.equals(price, other.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price);
     }
 }

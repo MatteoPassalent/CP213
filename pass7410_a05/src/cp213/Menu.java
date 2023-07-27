@@ -51,26 +51,16 @@ public class Menu {
     public Menu(Scanner fileScanner) {
 
         // your code here
-        // must be a better way
-        MenuItem item;
-        String num;
-        double price;
-        String name = "";
-        String line;
-        String[] words;
-        while (fileScanner.hasNext()) {
-            line = fileScanner.nextLine();
-            words = line.split(" ");
-            num = words[0];
-            price = Double.parseDouble(num);
-            for (int i = 1; i < words.length; i++) {
-                name += words[i];
-                name += " ";
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine().trim();
+            String[] parts = line.split(" ", 2);
+            if (parts.length >= 2) {
+                String num = parts[0];
+                double price = Double.parseDouble(num);
+                String name = parts[1].trim();
+                MenuItem item = new MenuItem(name, price);
+                menuList.add(item);
             }
-            name = name.strip();
-            item = new MenuItem(name, price);
-            menuList.add(item);
-            name = "";
         }
 
     }

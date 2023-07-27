@@ -15,25 +15,25 @@ import javax.swing.JFrame;
  */
 public class TakeOutGUI {
 
-    /**
-     * GUI execution.
-     *
-     * @param args Unused.
-     */
-    public static void main(String[] args) {
-	String filename = "menu.txt";
+	/**
+	 * GUI execution.
+	 *
+	 * @param args Unused.
+	 */
+	public static void main(String[] args) {
+		String filename = "pass7410_a05\\src\\cp213\\menu.txt";
 
-	try {
-	    Scanner fileScanner = new Scanner(new File(filename));
-	    Menu menu = new Menu(fileScanner);
-	    fileScanner.close();
-	    JFrame frame = new JFrame("WLU Foodorama");
-	    frame.setContentPane(new OrderPanel(menu));
-	    frame.setSize(280, 340);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setVisible(true);
-	} catch (FileNotFoundException e) {
-	    System.out.println("Cannot open menu file");
+		try {
+			Scanner fileScanner = new Scanner(new File(filename));
+			Menu menu = new Menu(fileScanner);
+			fileScanner.close();
+			JFrame frame = new JFrame("WLU Foodorama");
+			frame.setContentPane(new OrderPanel(menu));
+			frame.setSize(280, 340);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open menu file");
+		}
 	}
-    }
 }

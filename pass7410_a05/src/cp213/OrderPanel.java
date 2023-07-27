@@ -29,17 +29,14 @@ import javax.swing.JTextField;
 public class OrderPanel extends JPanel {
 
     // Attributes
-    // I wrote width/height
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 550;
 
     private Menu menu = null; // Menu attached to panel.
     private final Order order = new Order(); // Order to be printed by panel.
     // GUI Widgets
     private final JButton printButton = new JButton("Print");
-    private final JLabel subtotalLabel = new JLabel("0");
-    private final JLabel taxLabel = new JLabel("0");
-    private final JLabel totalLabel = new JLabel("0");
+    private final JLabel subtotalLabel = new JLabel("0.00");
+    private final JLabel taxLabel = new JLabel("0.00");
+    private final JLabel totalLabel = new JLabel("0.00");
 
     private JLabel nameLabels[] = null;
     private JLabel priceLabels[] = null;
@@ -136,12 +133,9 @@ public class OrderPanel extends JPanel {
     private void layoutView() {
         // your code here
         // should define what happens on close
-        JFrame testWindow = new JFrame("WLU Foodorama");
-        testWindow.setSize(WIDTH, HEIGHT);
 
         GridLayout gLayout = new GridLayout(menu.size() + 5, 3);
         setLayout(gLayout);
-        this.setSize(WIDTH, HEIGHT);
 
         JLabel itemHeading = new JLabel("Item");
         JLabel priceHeading = new JLabel("Price");
@@ -181,9 +175,6 @@ public class OrderPanel extends JPanel {
         this.add(printButton);
 
         this.setVisible(true);
-
-        testWindow.add(this);
-        testWindow.setVisible(true);
 
     }
 

@@ -30,8 +30,7 @@ public class A05Main {
 	public static void main(String[] args) {
 		System.out.println("Assignment 5 Class Tests");
 		testMenuItem();
-		Menu myMenu = testMenu();
-		testOrder(myMenu);
+		testMenu();
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class A05Main {
 	/**
 	 * Simple Menu tests.
 	 */
-	public static Menu testMenu() {
+	public static void testMenu() {
 		System.out.println(TEST_LINE);
 		System.out.println("Testing Menu");
 		System.out.println(LINE);
@@ -108,14 +107,12 @@ public class A05Main {
 		System.out.println("Menu menuFromList = new Menu(items);");
 		System.out.println("menuFromList.toString():");
 		System.out.println(menuFromList.toString());
-
-		return menu;
 	}
 
 	/**
 	 * Simple Menu tests.
 	 */
-	public static void testOrder(Menu menu) {
+	public static void testOrder() {
 		System.out.println(TEST_LINE);
 		System.out.println("Testing Menu");
 		System.out.println(LINE);
@@ -124,9 +121,7 @@ public class A05Main {
 		double doublePrice = 1.25;
 		MenuItem menuItem = new MenuItem(item, doublePrice);
 		order.add(menuItem, 1);
-		order.toString();
-		Cashier cashier = new Cashier(menu);
-		cashier.takeOrder();
+
 	}
 
 }
